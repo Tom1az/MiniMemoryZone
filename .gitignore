@@ -4,3 +4,5 @@ node_modules/
 yarn.lock
 .env
 dist/
+src/prisma/contract.d.ts
+src/prisma/contract.json

@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'0c0734babd6eeb868fee1f281ca96963022475611560e9f170f465daa35f8599'>;
+  StorageHashBase<'210431dbc0b8820b42bcf81a008ad6fa4c2a84e858ede2ed06fde911cfc18b0b'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -239,15 +239,258 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
     : CodecTypes[CodecId]['json']
   : Encoded;
 
-export type FieldOutputTypes = { readonly public: Record<string, never> };
-export type FieldInputTypes = { readonly public: Record<string, never> };
-export type StorageColumnTypes = { readonly public: {} };
-export type StorageColumnInputTypes = { readonly public: {} };
+export type FieldOutputTypes = {
+  readonly public: {
+    readonly CartItems: {
+      readonly cartItemId: CodecTypes['pg/int4@1']['output'];
+      readonly quantity: CodecTypes['pg/int4@1']['output'];
+      readonly cartId: CodecTypes['pg/int4@1']['output'];
+      readonly productId: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly Carts: {
+      readonly cartId: CodecTypes['pg/int4@1']['output'];
+      readonly userId: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly OrderItems: {
+      readonly quantity: CodecTypes['pg/int4@1']['output'];
+      readonly price: Numeric<10, 2>;
+      readonly orderId: CodecTypes['pg/int4@1']['output'];
+      readonly productId: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly Orders: {
+      readonly orderId: CodecTypes['pg/int4@1']['output'];
+      readonly status: Varchar<20>;
+      readonly userId: CodecTypes['pg/int4@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
+      readonly customerName: Varchar<255>;
+      readonly customerPhone: Varchar<10>;
+      readonly customerAddress: Varchar<255>;
+      readonly totalProduct: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly Products: {
+      readonly productId: CodecTypes['pg/int4@1']['output'];
+      readonly name: Varchar<255>;
+      readonly description: CodecTypes['pg/text@1']['output'] | null;
+      readonly imageUrl: Varchar<255> | null;
+      readonly price: Numeric<10, 2>;
+      readonly stockQuantity: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly Users: {
+      readonly userId: CodecTypes['pg/int4@1']['output'];
+      readonly email: Varchar<255>;
+      readonly fullName: Varchar<255>;
+      readonly createdAt: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
+      readonly hashedPass: Varchar<255>;
+    };
+  };
+};
+export type FieldInputTypes = {
+  readonly public: {
+    readonly CartItems: {
+      readonly cartItemId: CodecTypes['pg/int4@1']['input'];
+      readonly quantity: CodecTypes['pg/int4@1']['input'];
+      readonly cartId: CodecTypes['pg/int4@1']['input'];
+      readonly productId: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly Carts: {
+      readonly cartId: CodecTypes['pg/int4@1']['input'];
+      readonly userId: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly OrderItems: {
+      readonly quantity: CodecTypes['pg/int4@1']['input'];
+      readonly price: CodecTypes['pg/numeric@1']['input'];
+      readonly orderId: CodecTypes['pg/int4@1']['input'];
+      readonly productId: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly Orders: {
+      readonly orderId: CodecTypes['pg/int4@1']['input'];
+      readonly status: CodecTypes['sql/varchar@1']['input'];
+      readonly userId: CodecTypes['pg/int4@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
+      readonly customerName: CodecTypes['sql/varchar@1']['input'];
+      readonly customerPhone: CodecTypes['sql/varchar@1']['input'];
+      readonly customerAddress: CodecTypes['sql/varchar@1']['input'];
+      readonly totalProduct: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly Products: {
+      readonly productId: CodecTypes['pg/int4@1']['input'];
+      readonly name: CodecTypes['sql/varchar@1']['input'];
+      readonly description: CodecTypes['pg/text@1']['input'] | null;
+      readonly imageUrl: CodecTypes['sql/varchar@1']['input'] | null;
+      readonly price: CodecTypes['pg/numeric@1']['input'];
+      readonly stockQuantity: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly Users: {
+      readonly userId: CodecTypes['pg/int4@1']['input'];
+      readonly email: CodecTypes['sql/varchar@1']['input'];
+      readonly fullName: CodecTypes['sql/varchar@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
+      readonly hashedPass: CodecTypes['sql/varchar@1']['input'];
+    };
+  };
+};
+export type StorageColumnTypes = {
+  readonly public: {
+    readonly cart_items: {
+      readonly cart_id: CodecTypes['pg/int4@1']['output'];
+      readonly cart_item_id: CodecTypes['pg/int4@1']['output'];
+      readonly product_id: CodecTypes['pg/int4@1']['output'];
+      readonly quantity: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly carts: {
+      readonly cart_id: CodecTypes['pg/int4@1']['output'];
+      readonly user_id: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly order_items: {
+      readonly order_id: CodecTypes['pg/int4@1']['output'];
+      readonly price: Numeric<10, 2>;
+      readonly product_id: CodecTypes['pg/int4@1']['output'];
+      readonly quantity: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly orders: {
+      readonly created_at: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
+      readonly customer_address: Varchar<255>;
+      readonly customer_name: Varchar<255>;
+      readonly customer_phone: Varchar<10>;
+      readonly order_id: CodecTypes['pg/int4@1']['output'];
+      readonly status: Varchar<20>;
+      readonly total_product: CodecTypes['pg/int4@1']['output'];
+      readonly user_id: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly products: {
+      readonly description: CodecTypes['pg/text@1']['output'] | null;
+      readonly image_url: Varchar<255> | null;
+      readonly name: Varchar<255>;
+      readonly price: Numeric<10, 2>;
+      readonly product_id: CodecTypes['pg/int4@1']['output'];
+      readonly stock_quantity: CodecTypes['pg/int4@1']['output'];
+    };
+    readonly users: {
+      readonly created_at: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
+      readonly email: Varchar<255>;
+      readonly full_name: Varchar<255>;
+      readonly hashed_pass: Varchar<255>;
+      readonly user_id: CodecTypes['pg/int4@1']['output'];
+    };
+  };
+};
+export type StorageColumnInputTypes = {
+  readonly public: {
+    readonly cart_items: {
+      readonly cart_id: CodecTypes['pg/int4@1']['input'];
+      readonly cart_item_id: CodecTypes['pg/int4@1']['input'];
+      readonly product_id: CodecTypes['pg/int4@1']['input'];
+      readonly quantity: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly carts: {
+      readonly cart_id: CodecTypes['pg/int4@1']['input'];
+      readonly user_id: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly order_items: {
+      readonly order_id: CodecTypes['pg/int4@1']['input'];
+      readonly price: CodecTypes['pg/numeric@1']['input'];
+      readonly product_id: CodecTypes['pg/int4@1']['input'];
+      readonly quantity: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly orders: {
+      readonly created_at: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
+      readonly customer_address: CodecTypes['sql/varchar@1']['input'];
+      readonly customer_name: CodecTypes['sql/varchar@1']['input'];
+      readonly customer_phone: CodecTypes['sql/varchar@1']['input'];
+      readonly order_id: CodecTypes['pg/int4@1']['input'];
+      readonly status: CodecTypes['sql/varchar@1']['input'];
+      readonly total_product: CodecTypes['pg/int4@1']['input'];
+      readonly user_id: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly products: {
+      readonly description: CodecTypes['pg/text@1']['input'] | null;
+      readonly image_url: CodecTypes['sql/varchar@1']['input'] | null;
+      readonly name: CodecTypes['sql/varchar@1']['input'];
+      readonly price: CodecTypes['pg/numeric@1']['input'];
+      readonly product_id: CodecTypes['pg/int4@1']['input'];
+      readonly stock_quantity: CodecTypes['pg/int4@1']['input'];
+    };
+    readonly users: {
+      readonly created_at: CodecTypes['pg/timestamp-temporal@1']['input'] | null;
+      readonly email: CodecTypes['sql/varchar@1']['input'];
+      readonly full_name: CodecTypes['sql/varchar@1']['input'];
+      readonly hashed_pass: CodecTypes['sql/varchar@1']['input'];
+      readonly user_id: CodecTypes['pg/int4@1']['input'];
+    };
+  };
+};
 
-export namespace Models {}
+export namespace Models {
+  export type public_Users = {
+    userId: CodecTypes['pg/int4@1']['output'];
+    email: Varchar<255>;
+    fullName: Varchar<255>;
+    createdAt: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
+    hashedPass: Varchar<255>;
+    carts: public_Carts | null;
+    orders: public_Orders[];
+    readonly [RelationKeys]?: 'carts' | 'orders';
+  };
+  export type public_Carts = {
+    cartId: CodecTypes['pg/int4@1']['output'];
+    userId: CodecTypes['pg/int4@1']['output'];
+    cartItems: public_CartItems[];
+    user: public_Users;
+    readonly [RelationKeys]?: 'cartItems' | 'user';
+  };
+  export type public_Products = {
+    productId: CodecTypes['pg/int4@1']['output'];
+    name: Varchar<255>;
+    description: CodecTypes['pg/text@1']['output'] | null;
+    imageUrl: Varchar<255> | null;
+    price: Numeric<10, 2>;
+    stockQuantity: CodecTypes['pg/int4@1']['output'];
+    cartItems: public_CartItems[];
+    orderItems: public_OrderItems[];
+    readonly [RelationKeys]?: 'cartItems' | 'orderItems';
+  };
+  export type public_CartItems = {
+    cartItemId: CodecTypes['pg/int4@1']['output'];
+    quantity: CodecTypes['pg/int4@1']['output'];
+    cartId: CodecTypes['pg/int4@1']['output'];
+    productId: CodecTypes['pg/int4@1']['output'];
+    cart: public_Carts;
+    product: public_Products;
+    readonly [RelationKeys]?: 'cart' | 'product';
+  };
+  export type public_Orders = {
+    orderId: CodecTypes['pg/int4@1']['output'];
+    status: Varchar<20>;
+    userId: CodecTypes['pg/int4@1']['output'];
+    createdAt: CodecTypes['pg/timestamp-temporal@1']['output'] | null;
+    customerName: Varchar<255>;
+    customerPhone: Varchar<10>;
+    customerAddress: Varchar<255>;
+    totalProduct: CodecTypes['pg/int4@1']['output'];
+    orderItems: public_OrderItems[];
+    user: public_Users;
+    readonly [RelationKeys]?: 'orderItems' | 'user';
+  };
+  export type public_OrderItems = {
+    quantity: CodecTypes['pg/int4@1']['output'];
+    price: Numeric<10, 2>;
+    orderId: CodecTypes['pg/int4@1']['output'];
+    productId: CodecTypes['pg/int4@1']['output'];
+    order: public_Orders;
+    product: public_Products;
+    readonly [RelationKeys]?: 'order' | 'product';
+  };
+}
 
 export declare const models: {
-  public: {};
+  public: {
+    Users: Models.public_Users;
+    Carts: Models.public_Carts;
+    Products: Models.public_Products;
+    CartItems: Models.public_CartItems;
+    Orders: Models.public_Orders;
+    OrderItems: Models.public_OrderItems;
+  };
 };
 
 export type TypeMaps = TypeMapsType<
@@ -266,7 +509,336 @@ type ContractBase = Omit<
       readonly public: {
         readonly id: 'public';
         readonly kind: 'postgres-schema';
-        readonly entries: { readonly table: {} };
+        readonly entries: {
+          readonly table: {
+            readonly cart_items: {
+              columns: {
+                readonly cart_item_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly quantity: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly cart_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly product_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: {
+                readonly columns: readonly ['cart_item_id'];
+                readonly name: 'cart_items_pkey';
+              };
+              uniques: readonly [
+                {
+                  readonly columns: readonly ['cart_id', 'product_id'];
+                  readonly name: 'cart_items_cart_id_product_id_key';
+                },
+              ];
+              indexes: readonly [];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'cart_items';
+                    readonly columns: readonly ['cart_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'carts';
+                    readonly columns: readonly ['cart_id'];
+                  };
+                  readonly name: 'cart_items_cart_id_fkey';
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'cart_items';
+                    readonly columns: readonly ['product_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'products';
+                    readonly columns: readonly ['product_id'];
+                  };
+                  readonly name: 'cart_items_product_id_fkey';
+                },
+              ];
+            };
+            readonly carts: {
+              columns: {
+                readonly cart_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly user_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['cart_id']; readonly name: 'carts_pkey' };
+              uniques: readonly [
+                { readonly columns: readonly ['user_id']; readonly name: 'carts_user_id_key' },
+              ];
+              indexes: readonly [];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'carts';
+                    readonly columns: readonly ['user_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'users';
+                    readonly columns: readonly ['user_id'];
+                  };
+                  readonly name: 'carts_user_id_fkey';
+                },
+              ];
+            };
+            readonly order_items: {
+              columns: {
+                readonly quantity: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly price: {
+                  readonly nativeType: 'numeric';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 10; readonly scale: 2 };
+                };
+                readonly order_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly product_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: {
+                readonly columns: readonly ['order_id', 'product_id'];
+                readonly name: 'order_items_pkey';
+              };
+              uniques: readonly [];
+              indexes: readonly [];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'order_items';
+                    readonly columns: readonly ['order_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'orders';
+                    readonly columns: readonly ['order_id'];
+                  };
+                  readonly name: 'order_items_order_id_fkey';
+                },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'order_items';
+                    readonly columns: readonly ['product_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'products';
+                    readonly columns: readonly ['product_id'];
+                  };
+                  readonly name: 'order_items_product_id_fkey';
+                },
+              ];
+            };
+            readonly orders: {
+              columns: {
+                readonly order_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly status: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 20 };
+                };
+                readonly user_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly created_at: {
+                  readonly nativeType: 'timestamp';
+                  readonly codecId: 'pg/timestamp-temporal@1';
+                  readonly nullable: true;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly customer_name: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly customer_phone: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 10 };
+                };
+                readonly customer_address: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly total_product: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['order_id']; readonly name: 'orders_pkey' };
+              uniques: readonly [];
+              indexes: readonly [];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'orders';
+                    readonly columns: readonly ['user_id'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'users';
+                    readonly columns: readonly ['user_id'];
+                  };
+                  readonly name: 'orders_user_id_fkey';
+                },
+              ];
+            };
+            readonly products: {
+              columns: {
+                readonly product_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly name: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly description: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly image_url: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: true;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly price: {
+                  readonly nativeType: 'numeric';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly precision: 10; readonly scale: 2 };
+                };
+                readonly stock_quantity: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: {
+                readonly columns: readonly ['product_id'];
+                readonly name: 'products_pkey';
+              };
+              uniques: readonly [];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
+            readonly users: {
+              columns: {
+                readonly user_id: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'function';
+                    readonly expression: 'autoincrement()';
+                  };
+                };
+                readonly email: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly full_name: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+                readonly created_at: {
+                  readonly nativeType: 'timestamp';
+                  readonly codecId: 'pg/timestamp-temporal@1';
+                  readonly nullable: true;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+                readonly hashed_pass: {
+                  readonly nativeType: 'character varying';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly nullable: false;
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              primaryKey: { readonly columns: readonly ['user_id']; readonly name: 'users_pkey' };
+              uniques: readonly [
+                { readonly columns: readonly ['email']; readonly name: 'users_email_key' },
+              ];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
+          };
+        };
       };
     };
     readonly storageHash: StorageHash;
@@ -275,11 +847,431 @@ type ContractBase = Omit<
 > & {
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
-  readonly roots: Record<string, never>;
+  readonly roots: {
+    readonly users: { readonly namespace: 'public' & NamespaceId; readonly model: 'Users' };
+    readonly carts: { readonly namespace: 'public' & NamespaceId; readonly model: 'Carts' };
+    readonly products: { readonly namespace: 'public' & NamespaceId; readonly model: 'Products' };
+    readonly cart_items: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'CartItems';
+    };
+    readonly orders: { readonly namespace: 'public' & NamespaceId; readonly model: 'Orders' };
+    readonly order_items: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'OrderItems';
+    };
+  };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
-        readonly models: Record<string, never>;
+        readonly models: {
+          readonly CartItems: {
+            readonly fields: {
+              readonly cartItemId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly quantity: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly cartId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly productId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly cart: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Carts';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['cartId'];
+                  readonly targetFields: readonly ['cartId'];
+                };
+              };
+              readonly product: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Products';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['productId'];
+                  readonly targetFields: readonly ['productId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'cart_items';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly cartItemId: { readonly column: 'cart_item_id' };
+                readonly quantity: { readonly column: 'quantity' };
+                readonly cartId: { readonly column: 'cart_id' };
+                readonly productId: { readonly column: 'product_id' };
+              };
+            };
+          };
+          readonly Carts: {
+            readonly fields: {
+              readonly cartId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly userId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly cartItems: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'CartItems';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['cartId'];
+                  readonly targetFields: readonly ['cartId'];
+                };
+              };
+              readonly user: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Users';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['userId'];
+                  readonly targetFields: readonly ['userId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'carts';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly cartId: { readonly column: 'cart_id' };
+                readonly userId: { readonly column: 'user_id' };
+              };
+            };
+          };
+          readonly OrderItems: {
+            readonly fields: {
+              readonly quantity: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly price: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly typeParams: { readonly precision: 10; readonly scale: 2 };
+                };
+              };
+              readonly orderId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly productId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly order: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Orders';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['orderId'];
+                  readonly targetFields: readonly ['orderId'];
+                };
+              };
+              readonly product: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Products';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['productId'];
+                  readonly targetFields: readonly ['productId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'order_items';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly quantity: { readonly column: 'quantity' };
+                readonly price: { readonly column: 'price' };
+                readonly orderId: { readonly column: 'order_id' };
+                readonly productId: { readonly column: 'product_id' };
+              };
+            };
+          };
+          readonly Orders: {
+            readonly fields: {
+              readonly orderId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly status: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 20 };
+                };
+              };
+              readonly userId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamp-temporal@1';
+                };
+              };
+              readonly customerName: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly customerPhone: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 10 };
+                };
+              };
+              readonly customerAddress: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly totalProduct: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly orderItems: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'OrderItems';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['orderId'];
+                  readonly targetFields: readonly ['orderId'];
+                };
+              };
+              readonly user: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Users';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['userId'];
+                  readonly targetFields: readonly ['userId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'orders';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly orderId: { readonly column: 'order_id' };
+                readonly status: { readonly column: 'status' };
+                readonly userId: { readonly column: 'user_id' };
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly customerName: { readonly column: 'customer_name' };
+                readonly customerPhone: { readonly column: 'customer_phone' };
+                readonly customerAddress: { readonly column: 'customer_address' };
+                readonly totalProduct: { readonly column: 'total_product' };
+              };
+            };
+          };
+          readonly Products: {
+            readonly fields: {
+              readonly productId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly name: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly description: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly imageUrl: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly price: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly typeParams: { readonly precision: 10; readonly scale: 2 };
+                };
+              };
+              readonly stockQuantity: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+            };
+            readonly relations: {
+              readonly cartItems: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'CartItems';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['productId'];
+                  readonly targetFields: readonly ['productId'];
+                };
+              };
+              readonly orderItems: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'OrderItems';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['productId'];
+                  readonly targetFields: readonly ['productId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'products';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly productId: { readonly column: 'product_id' };
+                readonly name: { readonly column: 'name' };
+                readonly description: { readonly column: 'description' };
+                readonly imageUrl: { readonly column: 'image_url' };
+                readonly price: { readonly column: 'price' };
+                readonly stockQuantity: { readonly column: 'stock_quantity' };
+              };
+            };
+          };
+          readonly Users: {
+            readonly fields: {
+              readonly userId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly email: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly fullName: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+              readonly createdAt: {
+                readonly nullable: true;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamp-temporal@1';
+                };
+              };
+              readonly hashedPass: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'sql/varchar@1';
+                  readonly typeParams: { readonly length: 255 };
+                };
+              };
+            };
+            readonly relations: {
+              readonly carts: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Carts';
+                };
+                readonly cardinality: '1:1';
+                readonly nullable: true;
+                readonly on: {
+                  readonly localFields: readonly ['userId'];
+                  readonly targetFields: readonly ['userId'];
+                };
+              };
+              readonly orders: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'Orders';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['userId'];
+                  readonly targetFields: readonly ['userId'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'users';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly userId: { readonly column: 'user_id' };
+                readonly email: { readonly column: 'email' };
+                readonly fullName: { readonly column: 'full_name' };
+                readonly createdAt: { readonly column: 'created_at' };
+                readonly hashedPass: { readonly column: 'hashed_pass' };
+              };
+            };
+          };
+        };
       };
     };
   };

@@ -1,10 +1,18 @@
-const express = require('express');
-const logger = require('morgan'); //run before request -> middleware
-const postgresClient = require()
+import express from 'express';
+import logger from 'morgan'; //run before request -> middleware
+import { Client } from 'pg';
+
+const postgreClient = new Client({
+    user: 'phanqig',
+    host: 'localhost', 
+    password: '2506',
+    database: 'mini-memoryzone',
+    port: 5432
+})
 
 const app = express();
 
-const userRoute = require('./routes/user');
+import userRoute from './routes/user.js'; // Use ES6 import syntax for userRoute
 
 // Middlewares, client -> middlewares -> server (xu li o controller)
 app.use(logger('dev')); // log requests to the console
@@ -42,3 +50,16 @@ app.use(() => {
 const PORT = app.get('port') || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
+async function startServer() {
+    try {
+        await postgreClient.connect();
+        console.log("✅ Connected to PostgreSQL");
+
+        app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+    } catch (error) {
+        console.error(`❌ Failed to connect to PostgreSQL, error: ${error}`);
+        process.exit(1); // Exit the process with an error code
+    }
+}
+
+startServer();
