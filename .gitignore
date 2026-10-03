@@ -6,3 +6,4 @@ yarn.lock
 dist/
 src/prisma/contract.d.ts
 src/prisma/contract.json
+.vscode/

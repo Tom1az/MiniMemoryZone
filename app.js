@@ -1,21 +1,15 @@
-import express from 'express';
-import logger from 'morgan'; //run before request -> middleware
-import { Client } from 'pg';
-
-const postgreClient = new Client({
-    user: 'phanqig',
-    host: 'localhost', 
-    password: '2506',
-    database: 'mini-memoryzone',
-    port: 5432
-})
+import bodyParser from 'body-parser';
+import express from 'express'; 
+import logger from 'morgan';
 
 const app = express();
 
-import userRoute from './routes/user.js'; // Use ES6 import syntax for userRoute
+// const userRoute = require('./routes/user.js'); // Use CommonJS require for userRoute
+import userRoute from './routes/user.js'; // userRoute là router, do export default nên có thể đổi tên
 
 // Middlewares, client -> middlewares -> server (xu li o controller)
 app.use(logger('dev')); // log requests to the console
+app.use(bodyParser.json()); // parse incoming requests with JSON payloads
 
 app.use('/users', userRoute); // Use the user route for /users endpoint
 
@@ -34,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 // Error handler function
-app.use(() => {
+app.use((err, req, res, next) => {
     const error = app.get('env') === 'development' ? err : {};
     const status = error.status || 500;
 
@@ -48,11 +42,9 @@ app.use(() => {
 
 // Start the server
 const PORT = app.get('port') || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 async function startServer() {
     try {
-        await postgreClient.connect();
         console.log("✅ Connected to PostgreSQL");
 
         app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
