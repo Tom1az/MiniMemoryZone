@@ -35,7 +35,7 @@ const Users = db.orm.public.Users;
 const getUser = async (req, res, next) => {
   console.log("req params: ", req.params);
 
-  const { userID } = req.params;
+  const { userID } = req.value.params;
 
   const user = await Users.first({ userId: userID });
   console.log("user info: ", user);
@@ -60,75 +60,67 @@ const index = async (req, res, next) => {
 };
 
 const newUser = async (req, res, next) => {
-  console.log("req.body content: ", req.body);
+  const newUser = req.value.body; 
+  
+  bcrypt.hash(newUser.password, saltRounds, async function (hashErr, hash) {
+      if (hashErr) {
+        return next(hashErr);
+      }
 
-  try {
-    const newUser = await Users.create({
-      ...req.body,
-    });
-
-    return res.status(201).json({
-      newUser,
-      message: "You created a new user",
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const validateForReplaceUser = Joi.object({
-  email: Joi.string().email().required(),
-  fullName: Joi.string().trim().min(3).max(30).required(),
-  password: Joi.string().min(8).required(),
-});
-
-const replaceUser = async (req, res, next) => {
-  const { userID } = req.params;
-  const newUser = req.body;
-
-  const { error, value } = validateForReplaceUser.validate(req.body, {
-    abortEarly: false,
-  });
-
-  if (error) {
-    return res.status(400).json({
-      error: error.details.map((detail) => detail.message),
-    });
-  }
-
-  const hashedPass = await bcrypt.hash(
-    value.password,
-    saltRounds,
-    async function (err, hash) {
       try {
-        const replacedUser = {
-          email: value.email,
-          fullName: value.fullName,
-          hashedPass: hashedPass,
-        };
+        await Users.create ({
+          email: newUser.email,
+          fullName: newUser.fullName,
+          hashedPass: hash,
+        });
 
         console.log("newUser info: ", newUser);
 
-        await Users.where({ userId: userID }).update(replacedUser);
+        return res.status(201).json({
+          newUser,
+          message: "You created a new user",
+        })
       } catch (error) {
         next(error);
       }
-    },
+    }
   );
+};
 
-  return res.status(200).json({
-    result: {
-      userId: userID,
-      email: value.email,
-      fullName: value.fullName,
-    },
-    message: "Successfully replaced",
-  });
+const replaceUser = async (req, res, next) => {
+  const { userID } = req.params;
+  const newUser = req.value.body;
+
+  bcrypt.hash(newUser.password, saltRounds, async function (hashErr, hash) {
+      if (hashErr) {
+        return next(hashErr);
+      }
+
+      try {
+        const replacedUser = {
+          email: newUser.email,
+          fullName: newUser.fullName,
+          hashedPass: hash,
+        };
+
+        await Users.where({ userId: userID }).update(replacedUser);
+
+        console.log("newUser info: ", newUser);
+
+        return res.status(201).json({
+          newUser,
+          message: "You replaced a user",
+        })
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
 };
 
 const updateUser = async (req, res, next) => {
   const { userID } = req.params;
-  const newUser = req.body;
+  const newUser = req.value.body;
 
   const result = await Users.where({ userId: userID }).update({
     ...newUser,
