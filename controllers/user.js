@@ -1,5 +1,4 @@
 import { db } from "../src/prisma/db.ts";
-import "temporal-polyfill/full/global";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 

@@ -1,5 +1,4 @@
 import { db } from "../src/prisma/db.ts";
-import "temporal-polyfill/full/global";
 
 const Cart = db.orm.public.Carts;
 const CartItems = db.orm.public.CartItems;
@@ -36,6 +35,12 @@ const addItem = async (req, res, next) => {
         cart = await Cart.create({ userId: userID });
     }
 
+    if (quantity <= 0) {
+        return res.status(400).json({
+            message: 'Quantity must be greater than 0'
+        });
+    } 
+
     const cartItem = await CartItems.create({
         cartId: cart.cartId,
         productId,
@@ -53,6 +58,12 @@ const updateQuantity = async (req, res, next) => {
     const { quantity } = req.value.body;
 
     const res = await CartItems.where({ cartItemId }).update({ quantity });
+
+    if (quantity <= 0) {
+        return res.status(400).json({
+            message: 'Quantity must be greater than 0'
+        });
+    }
 
     return res.status(200).json({
         message: 'Cart item quantity updated successfully'

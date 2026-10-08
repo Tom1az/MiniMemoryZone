@@ -1,5 +1,4 @@
 import { db } from '../prisma/db.js';
-import "temporal-polyfill/full/global";
 
 const Products = db.orm.public.Products;
 

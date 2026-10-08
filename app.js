@@ -5,18 +5,18 @@ import logger from 'morgan';
 const app = express();
 
 import userRoute from './routes/user.js'; // userRoute là router, do export default nên có thể đổi tên
-import adminRoute from './routes/admin.js';
 import cartRoute from './routes/cart.js';
 import productRoute from './routes/product.js';
+import orderRoute from './routes/order.js';
 
 // Middlewares, client -> middlewares -> server (xu li o controller)
 app.use(logger('dev')); // log requests to the console
 app.use(bodyParser.json()); // parse incoming requests with JSON payloads
 
 app.use('/users', userRoute); // Use the user route for /users endpoint
-app.use('/admin', adminRoute); // Use the admin route for /admin endpoint
 app.use('/cart', cartRoute); // Use the cart route for /cart endpoint
 app.use('/products', productRoute); // Use the product route for /products endpoint
+app.use('/orders', orderRoute); // Use the order route for /orders endpoint
 
 // Routes
 app.get('/', (req, res, next) => {
