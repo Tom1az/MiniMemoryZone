@@ -57,15 +57,15 @@ const updateQuantity = async (req, res, next) => {
     const { cartItemId } = req.value.params;
     const { quantity } = req.value.body;
 
-    const res = await CartItems.where({ cartItemId }).update({ quantity });
+    const cartItem = await CartItems.where({ cartItemId }).update({ quantity });
 
     if (quantity <= 0) {
-        return res.status(400).json({
+        return cartItem.status(400).json({
             message: 'Quantity must be greater than 0'
         });
     }
 
-    return res.status(200).json({
+    return cartItem.status(200).json({
         message: 'Cart item quantity updated successfully'
     })
 }
