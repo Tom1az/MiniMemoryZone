@@ -11,7 +11,7 @@ router.route('/items')
     .post(validateParams(schemas.productIdSchema), cartController.addItem)
 
 router.route('/items/:cartItemId')
-    .patch(validateParams(schemas.cartItemIdSchema, 'cartItemId'), cartController.updateItem)
+    .patch(validateParams(schemas.cartItemIdSchema, 'cartItemId'), cartController.updateQuantity)
     .delete(validateParams(schemas.cartItemIdSchema, 'cartItemId'), cartController.removeItem)
 
     

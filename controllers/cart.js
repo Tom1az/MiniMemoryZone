@@ -41,7 +41,31 @@ const addItem = async (req, res, next) => {
         productId,
         quantity
     })
+
+    return res.status(201).json({
+        cartItem,
+        message: 'Item added to the cart successfully'
+    })
 }
 
-const 
+const updateQuantity = async (req, res, next) => {
+    const { cartItemId } = req.value.params;
+    const { quantity } = req.value.body;
+
+    const res = await CartItems.where({ cartItemId }).update({ quantity });
+
+    return res.status(200).json({
+        message: 'Cart item quantity updated successfully'
+    })
+}
+
+const removeItem = async (req, res, next) => {
+    const { cartItemId } = req.value.params;
+
+    await CartItems.where({ cartItemId }).delete();
+
+    return res.status(200).json({
+        message: 'Cart item removed successfully'
+    });
+} 
 
