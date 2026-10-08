@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'210431dbc0b8820b42bcf81a008ad6fa4c2a84e858ede2ed06fde911cfc18b0b'>;
+  StorageHashBase<'a60f535715bc92092e826ef3de95a22204b2d3b9e7ef12041c769c9d9669a109'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -274,6 +274,7 @@ export type FieldOutputTypes = {
       readonly imageUrl: Varchar<255> | null;
       readonly price: Numeric<10, 2>;
       readonly stockQuantity: CodecTypes['pg/int4@1']['output'];
+      readonly isActive: CodecTypes['pg/bool@1']['output'];
     };
     readonly Users: {
       readonly userId: CodecTypes['pg/int4@1']['output'];
@@ -319,6 +320,7 @@ export type FieldInputTypes = {
       readonly imageUrl: CodecTypes['sql/varchar@1']['input'] | null;
       readonly price: CodecTypes['pg/numeric@1']['input'];
       readonly stockQuantity: CodecTypes['pg/int4@1']['input'];
+      readonly isActive: CodecTypes['pg/bool@1']['input'];
     };
     readonly Users: {
       readonly userId: CodecTypes['pg/int4@1']['input'];
@@ -360,6 +362,7 @@ export type StorageColumnTypes = {
     readonly products: {
       readonly description: CodecTypes['pg/text@1']['output'] | null;
       readonly image_url: Varchar<255> | null;
+      readonly is_active: CodecTypes['pg/bool@1']['output'];
       readonly name: Varchar<255>;
       readonly price: Numeric<10, 2>;
       readonly product_id: CodecTypes['pg/int4@1']['output'];
@@ -405,6 +408,7 @@ export type StorageColumnInputTypes = {
     readonly products: {
       readonly description: CodecTypes['pg/text@1']['input'] | null;
       readonly image_url: CodecTypes['sql/varchar@1']['input'] | null;
+      readonly is_active: CodecTypes['pg/bool@1']['input'];
       readonly name: CodecTypes['sql/varchar@1']['input'];
       readonly price: CodecTypes['pg/numeric@1']['input'];
       readonly product_id: CodecTypes['pg/int4@1']['input'];
@@ -445,6 +449,7 @@ export namespace Models {
     imageUrl: Varchar<255> | null;
     price: Numeric<10, 2>;
     stockQuantity: CodecTypes['pg/int4@1']['output'];
+    isActive: CodecTypes['pg/bool@1']['output'];
     cartItems: public_CartItems[];
     orderItems: public_OrderItems[];
     readonly [RelationKeys]?: 'cartItems' | 'orderItems';
@@ -784,6 +789,15 @@ type ContractBase = Omit<
                   readonly nativeType: 'int4';
                   readonly codecId: 'pg/int4@1';
                   readonly nullable: false;
+                };
+                readonly is_active: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', true>;
+                  };
                 };
               };
               primaryKey: {
@@ -1158,6 +1172,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
+              readonly isActive: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
             };
             readonly relations: {
               readonly cartItems: {
@@ -1193,6 +1211,7 @@ type ContractBase = Omit<
                 readonly imageUrl: { readonly column: 'image_url' };
                 readonly price: { readonly column: 'price' };
                 readonly stockQuantity: { readonly column: 'stock_quantity' };
+                readonly isActive: { readonly column: 'is_active' };
               };
             };
           };

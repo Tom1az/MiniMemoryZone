@@ -31,6 +31,7 @@ model Products {
   stockQuantity Int            @map("stock_quantity")
   cartItems     CartItems[]
   orderItems    OrderItems[]
+  isActive      Boolean @default(true) @map("is_active")
 
   @@map("products")
 }

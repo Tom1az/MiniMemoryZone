@@ -1,0 +1,18 @@
+import express from 'express';
+const router = express.Router();
+import { validateBody, validateParams, schemas } from '../utils/validator.js';
+
+import cartController  from '../controllers/cart.js';
+
+router.route('/')
+    .get(cartController.myCart)
+
+router.route('/items')
+    .post(validateParams(schemas.productIdSchema), cartController.addItem)
+
+router.route('/items/:cartItemId')
+    .patch(validateParams(schemas.cartItemIdSchema, 'cartItemId'), cartController.updateItem)
+    .delete(validateParams(schemas.cartItemIdSchema, 'cartItemId'), cartController.removeItem)
+
+    
+export default router;

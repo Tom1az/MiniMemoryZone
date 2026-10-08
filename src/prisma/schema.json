@@ -422,6 +422,13 @@
                   }
                 }
               },
+              "isActive": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
               "name": {
                 "nullable": false,
                 "type": {
@@ -497,6 +504,9 @@
                 },
                 "imageUrl": {
                   "column": "image_url"
+                },
+                "isActive": {
+                  "column": "is_active"
                 },
                 "name": {
                   "column": "name"
@@ -950,6 +960,15 @@
                     "length": 255
                   }
                 },
+                "is_active": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
                 "name": {
                   "codecId": "sql/varchar@1",
                   "nativeType": "character varying",
@@ -1060,7 +1079,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "210431dbc0b8820b42bcf81a008ad6fa4c2a84e858ede2ed06fde911cfc18b0b"
+    "storageHash": "a60f535715bc92092e826ef3de95a22204b2d3b9e7ef12041c769c9d9669a109"
   },
   "capabilities": {
     "postgres": {

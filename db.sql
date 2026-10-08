@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     full_name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    hashed_pass VARCHAR(255) NOT NULL
+    hashed_pass VARCHAR(255) NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS products (
     description TEXT,
     image_url VARCHAR(255),
     price DECIMAL(10, 2) NOT NULL,
-    stock_quantity INT NOT NULL
+    stock_quantity INT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS order_items (
