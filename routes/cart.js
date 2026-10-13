@@ -8,10 +8,10 @@ router.route('/')
     .get(cartController.myCart)
 
 router.route('/items')
-    .post(validateParams(schemas.productIdSchema), validateBody(schemas.cartItemSchema), cartController.addItem)
+    .post(validateParams(schemas.idSchema), validateBody(schemas.cartItemSchema), cartController.addItem)
 
 router.route('/items/:cartItemId')
-    .patch(validateParams(schemas.cartItemIdSchema, 'cartItemId'), validateBody(schemas.updateCartItemSchema), cartController.updateQuantity)
-    .delete(validateParams(schemas.cartItemIdSchema, 'cartItemId'), cartController.removeItem)
+    .patch(validateParams(schemas.idSchema, 'cartItemId'), validateBody(schemas.updateCartItemSchema), cartController.updateQuantity)
+    .delete(validateParams(schemas.idSchema, 'cartItemId'), cartController.removeItem)
 
 export default router;

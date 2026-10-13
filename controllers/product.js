@@ -1,4 +1,4 @@
-import { db } from '../prisma/db.js';
+import { db } from "../src/prisma/db.ts";
 
 const Products = db.orm.public.Products;
 

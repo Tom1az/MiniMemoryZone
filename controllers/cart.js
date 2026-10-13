@@ -80,3 +80,9 @@ const removeItem = async (req, res, next) => {
     });
 } 
 
+export default {
+    myCart,
+    addItem,
+    updateQuantity,
+    removeItem
+}

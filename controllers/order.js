@@ -16,8 +16,8 @@ const myOrders = async (req, res, next) => {
 
 const newOrder = async (req, res, next) => {
     const { userId } = req.value.params;
-    const { orderDetails } = req.value.body;
-    const cart = await db.orm.public.Carts.first({ userId });
+    const { customerName, customerPhone, customerAddress } = req.value.body;
+    const cart = await db.orm.public.Carts.where({ userId });
 
     if (!cart) {
         return res.status(404).json({
@@ -44,12 +44,11 @@ const newOrder = async (req, res, next) => {
         const order = await tx.orm.public.Orders.create({
             status: 'pending',
             userId,
-            createdAt: new Date().toISOString(),
             orderDetails,
-            totalProduct: CartItems.reduce((sum, items) => sum + item.quantity, 0),
+            totalProduct: CartItems.reduce((sum, items) => sum + items.quantity, 0),
         })
 
-        for (const item in CartItems) {
+        for (const item of CartItems) {
             const product = await tx.orm.public.Products.first({ productId: item.productId});
             
             if (!product) {
@@ -63,11 +62,11 @@ const newOrder = async (req, res, next) => {
                 productId: item.productId
             })
         }
-    })
 
-    return res.status(201).json({
-        createOrder,
-        message: 'Order created successfully'
+        return res.status(201).json({
+            order,
+            message: 'Order created successfully'
+        })
     })
 }
 
@@ -87,4 +86,10 @@ const getOrder = async (req, res, next) => {
         order,
         message: 'Found the order'
     })
+}
+
+export default {
+    myOrders,
+    newOrder,
+    getOrder
 }
