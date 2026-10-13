@@ -1,4 +1,3 @@
-import { JoinAst } from '@prisma/orm-postgres/relational-core';
 import Joi from 'joi';
 
 const validateBody = (schema) => {
@@ -36,6 +35,11 @@ const validateParams = (schema, field) => {
 }
 
 const schemas = {
+    authSignInSchema: Joi.object().keys({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).required(),
+    }),
+
     idSchema: Joi.object().keys({
         param: Joi.string().regex(/^[0-9]{2}$/).required()
     }),

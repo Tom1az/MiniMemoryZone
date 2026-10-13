@@ -1,4 +1,3 @@
-import { create } from "node:domain";
 import { db } from "../src/prisma/db.ts";
 
 const Orders = db.orm.public.Orders;

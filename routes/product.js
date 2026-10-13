@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { validateBody, validateParams, schemas } from '../utils/validator.js';
+import { validateParams, schemas } from '../utils/validator.js';
 
 import productController  from '../controllers/product.js';
 

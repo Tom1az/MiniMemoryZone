@@ -1,13 +1,12 @@
 import bodyParser from 'body-parser';
-import express from 'express'; 
+import express from 'express';
 import logger from 'morgan';
-
-const app = express();
-
 import userRoute from './routes/user.js'; // userRoute là router, do export default nên có thể đổi tên
 import cartRoute from './routes/cart.js';
 import productRoute from './routes/product.js';
 import orderRoute from './routes/order.js';
+
+const app = express();
 
 // Middlewares, client -> middlewares -> server (xu li o controller)
 app.use(logger('dev')); // log requests to the console
@@ -34,8 +33,9 @@ app.use((req, res, next) => {
 
 // Error handler function
 app.use((err, req, res, next) => {
+
     const error = app.get('env') === 'development' ? err : {};
-    const status = error.status || 500;
+    const status = err.status || 500;
 
     //response to client
     return res.status(status).json({
